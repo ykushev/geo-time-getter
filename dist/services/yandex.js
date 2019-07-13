@@ -13,7 +13,7 @@ var _config = require("../config");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const axiosInstance = _axios2.default.create({
-  baseURL: _config.YANDEX_SERVICE_HOST,
+  baseURL: _config.YANDEX.HOST,
   timeout: 10000
 });
 /**
@@ -56,7 +56,6 @@ const getCoords = async cityName => {
       geocode: cityName
     }
   });
-  console.log(response);
   return getCoordsFromYandexResponse(response.data.response);
 };
 

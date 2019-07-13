@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { YANDEX_SERVICE_HOST } from '../config';
+import { YANDEX } from '../config';
 
 const axiosInstance = axios.create({
-    baseURL: YANDEX_SERVICE_HOST,
+    baseURL: YANDEX.HOST,
     timeout: 10000,
 });
 
