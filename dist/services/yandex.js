@@ -8,14 +8,9 @@ var _axios = require("axios");
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _config = require("../config");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const axiosInstance = _axios2.default.create({
-  baseURL: _config.YANDEX.HOST,
-  timeout: 10000
-});
+const DEFAULT_HOST = 'https://geocode-maps.yandex.ru/1.x/';
 /**
  * @method getCoordsFromYandexResponse - Достаёт координаты из http ответа яндекса
  * @private
@@ -24,7 +19,6 @@ const axiosInstance = _axios2.default.create({
  *
  * @return {Array.<String>} Массив координат
  */
-
 
 const getCoordsFromYandexResponse = yandexRes => {
   if (!yandexRes.GeoObjectCollection || !yandexRes.GeoObjectCollection.featureMember) {
@@ -41,7 +35,7 @@ const getCoordsFromYandexResponse = yandexRes => {
   return coords;
 };
 /**
- * @method getCoords - получает координаты из Яндекс Апи по названию
+ * @method getCoordsByName - получает координаты из Яндекс Апи по названию
  *
  * @param {String} cityName - название города чьи координаты надо получить
  * 
@@ -49,7 +43,16 @@ const getCoordsFromYandexResponse = yandexRes => {
  */
 
 
-const getCoords = async cityName => {
+const getCoordsByName = async ({
+  config,
+  cityName
+}) => {
+  // @TODO: create once
+  const axiosInstance = _axios2.default.create({
+    baseURL: config.YANDEX.HOST || DEFAULT_HOST,
+    timeout: 10000
+  });
+
   const response = await axiosInstance.get('', {
     params: {
       format: 'json',
@@ -59,4 +62,4 @@ const getCoords = async cityName => {
   return getCoordsFromYandexResponse(response.data.response);
 };
 
-exports.default = getCoords;
+exports.default = getCoordsByName;

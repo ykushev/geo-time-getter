@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-import { YANDEX } from '../config';
-
-const axiosInstance = axios.create({
-    baseURL: YANDEX.HOST,
-    timeout: 10000,
-});
+const DEFAULT_HOST = 'https://geocode-maps.yandex.ru/1.x/';
 
 /**
  * @method getCoordsFromYandexResponse - Достаёт координаты из http ответа яндекса
@@ -33,13 +28,18 @@ const getCoordsFromYandexResponse = (yandexRes) => {
 };
 
 /**
- * @method getCoords - получает координаты из Яндекс Апи по названию
+ * @method getCoordsByName - получает координаты из Яндекс Апи по названию
  *
  * @param {String} cityName - название города чьи координаты надо получить
  * 
  * @return {Array.<String>} координаты
  */
-const getCoords = async (cityName) => {
+const getCoordsByName = async ({ config, cityName }) => {
+    // @TODO: create once
+    const axiosInstance = axios.create({
+        baseURL: config.YANDEX.HOST || DEFAULT_HOST,
+        timeout: 10000,
+    });
 
     const response = await axiosInstance.get('', {
         params: {
@@ -51,4 +51,4 @@ const getCoords = async (cityName) => {
     return getCoordsFromYandexResponse(response.data.response);
 };
 
-export default getCoords;
+export default getCoordsByName;

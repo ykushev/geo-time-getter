@@ -1,5 +1,9 @@
 "use strict";
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _yandex = require("./services/yandex.js");
 
 var _yandex2 = _interopRequireDefault(_yandex);
@@ -14,11 +18,33 @@ require("babel-core/register");
 
 require("babel-polyfill");
 
-const main = async cityName => {
-  console.log(cityName);
-  const coords = await (0, _yandex2.default)(cityName);
-  console.log(coords);
-  const result = (0, _google2.default)(coords);
-};
+class geoTimeGetter {
+  constructor(config = {}) {
+    // @TODO: validator, default values
+    this.config = {
+      GOOGLE: {},
+      YANDEX: {},
+      ...config
+    };
+  }
 
-main('Novosibirsk');
+  async get(cityName) {
+    const {
+      config
+    } = this;
+    console.log(cityName);
+    const coords = await (0, _yandex2.default)({
+      config,
+      cityName
+    });
+    console.log(coords);
+    const result = await (0, _google2.default)({
+      config,
+      coords
+    });
+    return result;
+  }
+
+}
+
+exports.default = geoTimeGetter;

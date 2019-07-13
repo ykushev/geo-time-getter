@@ -1,11 +1,14 @@
-install
+get google api key: 
+https://developers.google.com/maps/documentation/timezone/start#get-a-key
 
+Usage Example: 
 ```
-$ yarn
-$ cp src/config.sample.json src/config.json
-```
+import geoTimeGetter from 'geo-time-getter';
 
-run
-```
-yarn start
+const gtg = new geoTimeGetter({
+    GOOGLE: { apiKey: "<your key>" }
+});
+
+const result = await gtg.get('Novosibirsk');
+
 ```
