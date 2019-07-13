@@ -1,6 +1,6 @@
 {
   "name": "geo-time-getter",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -8,11 +8,8 @@
     "start": "yarn run build && yarn node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ykushev/geo-time-getter.git"
-  },
-  "author": "",
+  "repository": "git+https://github.com/ykushev/geo-time-getter.git",
+  "author": "Roman <canvas1992@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ykushev/geo-time-getter/issues"
