@@ -32,7 +32,7 @@ const getTimezoneByCoords = async ({
   } = await axiosInstance.get('maps/api/timezone/json', {
     params: {
       location: coords.join(','),
-      timestamp: Date.now(),
+      timestamp: Date.now() / 1000,
       key: config.GOOGLE.apiKey
     }
   }).catch(error => {

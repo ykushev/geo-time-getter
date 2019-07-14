@@ -22,7 +22,7 @@ const getCoordsFromYandexResponse = (yandexRes) => {
         !firstRes.GeoObject.Point.pos) {
         throw new Error;
     }
-    const coords = firstRes.GeoObject.Point.pos.split(' ');
+    const coords = firstRes.GeoObject.Point.pos.split(' ').reverse();
 
     return coords;
 };
