@@ -8,9 +8,22 @@ var _axios = require("axios");
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _ServiceUnavailable = require("./../errors/ServiceUnavailable");
+
+var _ServiceUnavailable2 = _interopRequireDefault(_ServiceUnavailable);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 const HOST_DEFAULT = 'https://maps.googleapis.com/';
+/**
+ * @method getTimezoneByCoords - getting from google
+ *
+ * @param {Object} config 
+ * @param {Array.<String>} coords
+ * 
+ * @throws {ServiceUnavailable}
+ * @return {Object} google response https://developers.google.com/maps/documentation/timezone/intro
+ */
 
 const getTimezoneByCoords = async ({
   config,
@@ -22,23 +35,20 @@ const getTimezoneByCoords = async ({
     timeout: 10000
   });
 
-  console.log({
-    location: coords.join(','),
-    timestamp: Date.now(),
-    key: config.GOOGLE.apiKey
-  });
-  const {
-    data
-  } = await axiosInstance.get('maps/api/timezone/json', {
-    params: {
-      location: coords.join(','),
-      timestamp: Date.now() / 1000,
-      key: config.GOOGLE.apiKey
-    }
-  }).catch(error => {
-    console.error('google api error', error);
-  });
-  return data;
+  try {
+    const {
+      data
+    } = await axiosInstance.get('maps/api/timezone/json', {
+      params: {
+        location: coords.join(','),
+        timestamp: Date.now() / 1000,
+        key: config.GOOGLE.apiKey
+      }
+    });
+    return data;
+  } catch (error) {
+    throw new _ServiceUnavailable2.default(error);
+  }
 };
 
 exports.default = getTimezoneByCoords;

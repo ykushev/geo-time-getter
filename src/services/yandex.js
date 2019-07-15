@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import ServiceUnavailable from './../errors/ServiceUnavailable';
+
 const DEFAULT_HOST = 'https://geocode-maps.yandex.ru/1.x/';
 
 /**
@@ -32,6 +34,7 @@ const getCoordsFromYandexResponse = (yandexRes) => {
  *
  * @param {String} cityName - название города чьи координаты надо получить
  * 
+ * @throws {ServiceUnavailable}
  * @return {Array.<String>} координаты
  */
 const getCoordsByName = async ({ config, cityName }) => {
@@ -41,14 +44,18 @@ const getCoordsByName = async ({ config, cityName }) => {
         timeout: 10000,
     });
 
-    const response = await axiosInstance.get('', {
-        params: {
-            format: 'json',
-            geocode: cityName
-        }
-    });
-
-    return getCoordsFromYandexResponse(response.data.response);
+    try {
+        const response = await axiosInstance.get('', {
+            params: {
+                format: 'json',
+                geocode: cityName
+            }
+        });
+    
+        return getCoordsFromYandexResponse(response.data.response);
+    } catch (error) {
+        throw new ServiceUnavailable(error);
+    }
 };
 
 export default getCoordsByName;
