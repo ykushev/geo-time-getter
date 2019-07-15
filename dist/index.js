@@ -34,6 +34,10 @@ class geoTimeGetter {
       cache: false,
       ...config
     };
+
+    if (config.cache) {
+      this.cache = new _cache2.default(config.cache);
+    }
   }
   /**
    * @method getFromApi - getting zone from api
@@ -48,6 +52,7 @@ class geoTimeGetter {
 
 
   async getFromApi(cityName) {
+    console.log('getFromApi');
     const {
       config
     } = this;
@@ -79,8 +84,6 @@ class geoTimeGetter {
     if (!config.cache) {
       return await this.getFromApi(cityName);
     } else {
-      this.cache = new _cache2.default(config.cache);
-
       if (config.cache.strategy === 'cacheFirst') {
         try {
           return this.cache.get(cityName);

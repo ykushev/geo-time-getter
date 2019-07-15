@@ -17,6 +17,10 @@ class geoTimeGetter {
             cache: false,
             ...config
         };
+
+        if (config.cache) {
+            this.cache = new Cache(config.cache);
+        }
     }
 
     /**
@@ -51,7 +55,7 @@ class geoTimeGetter {
         if (!config.cache) {
             return await this.getFromApi(cityName);
         } else {
-            this.cache = new Cache(config.cache);
+            
 
             if (config.cache.strategy === 'cacheFirst') {
                 try {
